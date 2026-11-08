@@ -1,0 +1,31 @@
+{
+  "display_information": {
+    "name": "netlify-server-http-slackbot",
+    "description": "Slack bot running on Netlify Server"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "netlify-server-http-slackbot",
+      "always_online": true
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "app_mentions:read",
+        "chat:write"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://YOUR-SITE.netlify.app/slack/events",
+      "bot_events": [
+        "app_mention"
+      ]
+    },
+    "org_deploy_enabled": true,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

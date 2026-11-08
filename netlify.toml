@@ -1,0 +1,12 @@
+[build]
+  # Only this folder is served as static files, so the rest of the project,
+  # such as package.json and the server's source, never is.
+  publish = "public"
+  # There's no build step. Setting a command keeps framework detection from
+  # guessing one: it can mistake a config.json in a parent folder for a Hugo
+  # site.
+  command = "echo 'No build step'"
+
+[dev]
+  # No frontend framework here; without this, detection guesses one.
+  framework = "#static"

@@ -1,0 +1,16 @@
+{
+  "name": "netlify-server-http-slackbot",
+  "private": true,
+  "type": "module",
+  "description": "A Slack bot running on Netlify Server, with Slack's Events API over HTTP",
+  "scripts": {
+    "dev": "EXPERIMENTAL_NETLIFY_SERVER=true netlify dev"
+  },
+  "dependencies": {
+    "@netlify/server": "^0.1.6",
+    "@slack/bolt": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
