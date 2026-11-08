@@ -186,11 +186,18 @@ export default createServer((req, res) => {
     const { pathname } = new URL(req.url, "http://localhost");
 
     if (pathname === SLACK_EVENTS_PATH) {
-      if (receiver) {
-        return receiver.requestListener(req, res);
+      if (!receiver) {
+        return send(res, 503, "The bot's Slack credentials aren't set.\n", "text/plain; charset=utf-8");
       }
 
-      return send(res, 503, "The bot's Slack credentials aren't set.\n", "text/plain; charset=utf-8");
+      // Slack only sends POSTs here. Bolt's receiver throws on anything else.
+      if (req.method !== "POST") {
+        res.setHeader("allow", "POST");
+
+        return send(res, 405, "Method not allowed\n", "text/plain; charset=utf-8");
+      }
+
+      return receiver.requestListener(req, res);
     }
 
     if (pathname === "/status") {
