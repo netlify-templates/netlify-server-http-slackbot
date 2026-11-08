@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "description": "A Slack bot running on Netlify Server, with Slack's Events API over HTTP",
+  "license": "MIT",
   "scripts": {
     "dev": "EXPERIMENTAL_NETLIFY_SERVER=true netlify dev"
   },
