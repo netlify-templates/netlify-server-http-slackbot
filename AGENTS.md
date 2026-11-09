@@ -8,7 +8,7 @@ You run the terminal steps (`git clone`, `npm install`, `netlify sites:create`, 
 
 The person does every step marked **(browser)**. These happen in Slack and need their Slack login, so give them the exact page and button, and wait for them to say it's done.
 
-Before you start, ask for the site name they want, and whether they're using a Slack developer sandbox or another workspace. A sandbox is an Enterprise organization, where an app is installed for the whole organization and then has to be added to a workspace (step 3 in the README).
+Before you start, ask for the site name they want, and whether they're using a Slack developer sandbox or another workspace. A sandbox is an Enterprise organization, where installing an app installs it for the whole organization, and the app then has to be added to a workspace (step 3 in the README).
 
 ## Secrets
 
@@ -18,7 +18,7 @@ To store the credentials, have the person run `bash scripts/set-tokens.sh` in a 
 
 Don't try to read the values back. `netlify env:list` and the Netlify API don't return secret values anyway. For local development, the person puts their dev app's credentials in `.env` themselves, so don't read that file either.
 
-The credentials are stored for the production context only, on purpose. Don't copy them to other contexts, and don't use `netlify env:clone` for them, because secret values don't clone.
+The credentials are stored for the production context only, so Deploy Previews and branch deploys never act as the bot. Don't copy them to other contexts, and don't use `netlify env:clone` for them, because secret values don't clone.
 
 ## Checkpoints
 
@@ -34,11 +34,12 @@ If `slack` is `not_configured`, the credentials were missing when the deploy was
 ## Diagnosing
 
 1. If a mention gets no reply, check `/status`.
-   1. If `eventsHandled` didn't change, Slack never delivered the event. Check that the Request URL is verified, that Socket Mode is off, the `app_mention` subscription, and that the bot is a member of the channel. In an Enterprise organization, also check that the app was added to the workspace.
+   1. If `eventsHandled` didn't change, Slack never delivered the event. Check that the Request URL is verified, that Socket Mode is off, that `app_mention` is subscribed, and that the bot is a member of the channel. In an Enterprise organization, also check that the app was added to the workspace.
    2. If the last entry in `recentEvents` is `reply_failed`, its message gives the Slack API error.
+   3. The counts start from zero on each instance, so compare `instanceId` too. If it changed between your checks, the event may have reached the instance that stopped.
 2. For the server's logs, run `netlify logs --source server` in the linked folder.
-3. Every request to `/status` keeps the instance up for another 5 minutes. So when testing what happens after the bot has been idle, don't poll it.
-4. Locally, start the server with `npm run dev`, which sets `EXPERIMENTAL_NETLIFY_SERVER=true`. A rejected request returns `500 fetch failed` locally, where a deployed site returns 401. The bot is fine, `netlify dev` just reports the 401 that way.
+3. Every request to `/status` keeps the instance running for another 5 minutes, so don't poll it while testing what happens after the bot has been idle.
+4. Locally, start the server with `npm run dev`, which sets `EXPERIMENTAL_NETLIFY_SERVER=true`. A rejected request returns `500 fetch failed` locally, where a deployed site returns 401. That's how `netlify dev` reports the bot's 401.
 
 ## What not to do
 
