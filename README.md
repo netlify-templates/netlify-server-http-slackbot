@@ -2,9 +2,7 @@
 
 This is a small Slack bot that runs on Netlify Server. When you mention it in a channel, it replies in the thread with a "pong" that says which server instance answered, how long that instance has been up, and how long Slack took to deliver the mention:
 
-```text
-pong from instance `a1b2c3d4` · up 12s · event lag 0.9s
-```
+<img width="567" height="217" alt="slackbot" src="https://github.com/user-attachments/assets/302b58ce-06f8-48bf-9073-e13db85b1fed" />
 
 You can use it to see how a Slack bot behaves on Netlify Server, or as a starting point for your own bot. If a coding agent is helping you set it up, point it to [AGENTS.md](AGENTS.md).
 
